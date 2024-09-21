@@ -1,31 +1,21 @@
-import React from "react";
 import SearchInput from "../components/SearchInput";
 import NotesList from "../components/NotesList";
 import ActionButton from "../components/ActionButton";
 import { IoIosAdd } from "react-icons/io";
 import PropTypes from "prop-types";
 
-class HomePage extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        return (
-            <section className="homepage">
-                <h2>Catatan Aktif</h2>
-                <SearchInput
-                    changeFilter={this.props.changeFilter}
-                    filter={this.props.filter}
-                />
-                <NotesList notes={this.props.notes} />
-                <div className="homepage__action">
-                    <ActionButton redirectTo="/notes/create" Icon={IoIosAdd} />
-                </div>
-            </section>
-        );
-    }
-}
+const HomePage = ({ changeFilter, filter, notes }) => {
+    return (
+        <section className="homepage">
+            <h2>Catatan Aktif</h2>
+            <SearchInput changeFilter={changeFilter} filter={filter} />
+            <NotesList notes={notes} />
+            <div className="homepage__action">
+                <ActionButton redirectTo="/notes/create" Icon={IoIosAdd} />
+            </div>
+        </section>
+    );
+};
 
 HomePage.propTypes = {
     changeFilter: PropTypes.func.isRequired,
