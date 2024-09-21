@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { showFormattedDate } from "../utils";
 import { IoMdTrash } from "react-icons/io";
 import PropTypes from "prop-types";
+import NotFoundPage from "./NotFoundPage";
 
 function DetailPageWrapper({ deleteNote, archiveNote, unarchiveNote }) {
     const { id } = useParams();
@@ -29,6 +30,10 @@ class DetailPage extends React.Component {
     }
 
     render() {
+        if (!this.state.note) {
+            return <NotFoundPage />;
+        }
+
         return (
             <section className="detail-page">
                 <h3 className="detail-page__title">{this.state.note.title}</h3>
