@@ -14,6 +14,8 @@ import {
 } from "./utils/local-data";
 import DetailPage from "./pages/DetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 class App extends React.Component {
     constructor(props) {
@@ -117,6 +119,8 @@ class App extends React.Component {
                                 />
                             }
                         />
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route path="/register" element={<RegisterPage />} />
                         <Route path="*" element={<NotFoundPage />} />
                     </Routes>
                 </main>
