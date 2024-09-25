@@ -1,51 +1,43 @@
-import React from "react";
+import { useState } from "react";
 import CreateForm from "../components/CreateForm";
 import ActionButton from "../components/ActionButton";
 import { MdSave } from "react-icons/md";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-class CreatePage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: "",
-            body: "",
-        };
-    }
+const CreatePage = ({ addNote }) => {
+    const [title, setTitle] = useState("");
+    const [body, setBody] = useState("");
+    const navigate = useNavigate();
 
-    onTitleChangeEventHandler = (event) => {
-        this.setState({ title: event.target.value });
+    const onTitleChangeEventHandler = (event) => {
+        setTitle(event.target.value);
     };
 
-    onBodyChangeEventHandler = (event) => {
-        this.setState({ body: event.target.innerHTML });
+    const onBodyChangeEventHandler = (event) => {
+        setBody(event.target.innerHTML);
     };
 
-    render() {
-        return (
-            <>
-                <CreateForm
-                    title={this.state.title}
-                    body={this.state.body}
-                    titleHandler={this.onTitleChangeEventHandler}
-                    bodyHandler={this.onBodyChangeEventHandler}
-                />
-                <div className="add-new-page__action">
-                    <ActionButton
-                        redirectTo="/"
-                        onClick={() =>
-                            this.props.addNote({
-                                title: this.state.title,
-                                body: this.state.body,
-                            })
-                        }
-                        Icon={MdSave}
-                    />
-                </div>
-            </>
-        );
-    }
-}
+    const addNoteHandler = async () => {
+        await addNote({ title, body });
+
+        navigate("/");
+    };
+
+    return (
+        <>
+            <CreateForm
+                title={title}
+                body={body}
+                titleHandler={onTitleChangeEventHandler}
+                bodyHandler={onBodyChangeEventHandler}
+            />
+            <div className="add-new-page__action">
+                <ActionButton onClick={addNoteHandler} Icon={MdSave} />
+            </div>
+        </>
+    );
+};
 
 CreatePage.propTypes = {
     addNote: PropTypes.func.isRequired,
