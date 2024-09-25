@@ -8,7 +8,7 @@ import {
     archiveNote,
     deleteNote,
     unarchiveNote,
-} from "./utils/local-data";
+} from "./utils/network-data";
 import DetailPage from "./pages/DetailPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import { LoginPage } from "./pages/LoginPage";
@@ -40,32 +40,26 @@ const App = () => {
         }
     }, [filter, currentFilter]);
 
-    const addNewNote = ({ title, body }) => {
-        addNote({ title, body });
-        refreshNotes();
+    const addNewNote = async ({ title, body }) => {
+        await addNote({ title, body });
     };
 
-    const deleteNoteHandler = (id) => {
-        deleteNote(id);
-        refreshNotes();
+    const deleteNoteHandler = async (id) => {
+        await deleteNote(id);
     };
 
-    const archiveNoteHandler = (id) => {
-        archiveNote(id);
-        refreshNotes();
+    const archiveNoteHandler = async (id) => {
+        await archiveNote(id);
     };
 
-    const unarchiveNoteHandler = (id) => {
-        unarchiveNote(id);
-        refreshNotes();
+    const unarchiveNoteHandler = async (id) => {
+        await unarchiveNote(id);
     };
 
     const onChangeFilterHandler = (value) => {
         setCurrentFilter(value);
         setSearchParams(value ? { search: value } : {});
     };
-
-    const refreshNotes = () => {};
 
     return (
         <div className="app-container">

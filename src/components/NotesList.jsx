@@ -6,12 +6,10 @@ import { getActiveNotes, getArchivedNotes } from "../utils/network-data";
 
 const NotesList = ({ isActiveNotes = true, filter = "" }) => {
     const [notes, setNotes] = useState([]);
-    const { startLoading, stopLoading, renderWithLoading } = useLoading();
+    const { stopLoading, renderWithLoading } = useLoading();
 
     useEffect(() => {
         async function fetchData() {
-            startLoading();
-
             const result = isActiveNotes
                 ? await getActiveNotes()
                 : await getArchivedNotes();

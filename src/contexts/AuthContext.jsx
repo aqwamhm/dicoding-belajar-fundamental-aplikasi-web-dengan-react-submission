@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }) => {
         if (!result.error) {
             putAccessToken(result.data.accessToken);
             setIsLoggedIn(true);
+            await setAuthedUser();
         }
     };
 

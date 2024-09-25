@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const useLoading = () => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const startLoading = () => setIsLoading(true);
     const stopLoading = () => setIsLoading(false);
@@ -10,7 +10,7 @@ const useLoading = () => {
         return isLoading ? <p>Memuat data...</p> : Content;
     };
 
-    return { startLoading, stopLoading, renderWithLoading };
+    return { isLoading, startLoading, stopLoading, renderWithLoading };
 };
 
 export default useLoading;
