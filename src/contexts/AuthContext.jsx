@@ -1,5 +1,9 @@
 import { createContext, useState } from "react";
-import { getUserLogged, putAccessToken } from "../utils/network-data";
+import {
+    getUserLogged,
+    login as networkLogin,
+    putAccessToken,
+} from "../utils/network-data";
 
 export const AuthContext = createContext();
 
@@ -34,7 +38,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = async ({ email, password }) => {
-        const result = await login({ email, password });
+        const result = await networkLogin({ email, password });
 
         if (!result.error) {
             putAccessToken(result.data.accessToken);

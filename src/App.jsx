@@ -7,8 +7,6 @@ import {
     addNote,
     archiveNote,
     deleteNote,
-    getActiveNotes,
-    getArchivedNotes,
     unarchiveNote,
 } from "./utils/local-data";
 import DetailPage from "./pages/DetailPage";
@@ -22,8 +20,6 @@ import useLoading from "./hooks/useLoading";
 const App = () => {
     const { isLoggedIn, setAuthedUser } = useContext(AuthContext);
     const [searchParams, setSearchParams] = useSearchParams();
-    const [activeNotes, setActiveNotes] = useState(getActiveNotes());
-    const [archivedNotes, setArchivedNotes] = useState(getArchivedNotes());
     const filter = searchParams.get("search") || "";
     const [currentFilter, setCurrentFilter] = useState(filter);
     const { startLoading, stopLoading, renderWithLoading } = useLoading();
@@ -69,18 +65,7 @@ const App = () => {
         setSearchParams(value ? { search: value } : {});
     };
 
-    const refreshNotes = () => {
-        setActiveNotes(getActiveNotes());
-        setArchivedNotes(getArchivedNotes());
-    };
-
-    const filteredActiveNotes = activeNotes.filter((note) =>
-        note.title.toLowerCase().includes(currentFilter.toLowerCase())
-    );
-
-    const filteredArchivedNotes = archivedNotes.filter((note) =>
-        note.title.toLowerCase().includes(currentFilter.toLowerCase())
-    );
+    const refreshNotes = () => {};
 
     return (
         <div className="app-container">
@@ -107,7 +92,6 @@ const App = () => {
                                     path="/"
                                     element={
                                         <HomePage
-                                            notes={filteredActiveNotes}
                                             changeFilter={onChangeFilterHandler}
                                             filter={currentFilter}
                                         />
@@ -117,7 +101,6 @@ const App = () => {
                                     path="/archives"
                                     element={
                                         <ArchivesPage
-                                            notes={filteredArchivedNotes}
                                             changeFilter={onChangeFilterHandler}
                                             filter={currentFilter}
                                         />

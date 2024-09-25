@@ -8,7 +8,7 @@ export const LoginPage = () => {
     const [password, setPassword] = useInput("");
     const { login } = useContext(AuthContext);
     const handleLoginSubmit = async () => {
-        login({ email, password });
+        await login({ email, password });
     };
 
     return (

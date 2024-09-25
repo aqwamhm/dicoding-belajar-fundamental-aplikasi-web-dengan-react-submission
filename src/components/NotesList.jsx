@@ -1,44 +1,54 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import NoteItem from "./NoteItem";
 import PropTypes from "prop-types";
+import useLoading from "../hooks/useLoading";
+import { getActiveNotes, getArchivedNotes } from "../utils/network-data";
 
-class NotesList extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+const NotesList = ({ isActiveNotes = true, filter = "" }) => {
+    const [notes, setNotes] = useState([]);
+    const { startLoading, stopLoading, renderWithLoading } = useLoading();
 
-    render() {
-        return (
-            <section className="notes-list">
-                {!this.props.notes.length ? (
+    useEffect(() => {
+        async function fetchData() {
+            startLoading();
+
+            const result = isActiveNotes
+                ? await getActiveNotes()
+                : await getArchivedNotes();
+            setNotes(result.data);
+            stopLoading();
+        }
+
+        fetchData();
+    }, [isActiveNotes]);
+
+    const filteredNotes = notes.filter((note) =>
+        note.title.toLowerCase().includes(filter.toLowerCase())
+    );
+
+    return (
+        <section className="notes-list">
+            {renderWithLoading(
+                !notes.length ? (
                     <p>Tidak ada catatan</p>
                 ) : (
-                    this.props.notes.map((note) => {
-                        return (
-                            <NoteItem
-                                key={note.id}
-                                id={note.id}
-                                title={note.title}
-                                body={note.body}
-                                createdAt={note.createdAt}
-                            />
-                        );
-                    })
-                )}
-            </section>
-        );
-    }
-}
+                    filteredNotes.map((note) => (
+                        <NoteItem
+                            key={note.id}
+                            id={note.id}
+                            title={note.title}
+                            body={note.body}
+                            createdAt={note.createdAt}
+                        />
+                    ))
+                )
+            )}
+        </section>
+    );
+};
 
 NotesList.propTypes = {
-    notes: PropTypes.arrayOf(
-        PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            body: PropTypes.string,
-            createdAt: PropTypes.string.isRequired,
-        })
-    ).isRequired,
+    isActiveNotes: PropTypes.bool,
 };
 
 export default NotesList;
