@@ -2,12 +2,14 @@ import { useContext } from "react";
 import { LuLogOut } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../contexts/AuthContext";
-import { MdTranslate } from "react-icons/md";
+import { MdDarkMode, MdLightMode, MdTranslate } from "react-icons/md";
 import { LocaleContext } from "../contexts/LocaleContext";
+import { ThemeContext } from "../contexts/ThemeContext";
 
 export const Header = () => {
     const { isLoggedIn, logout, name } = useContext(AuthContext);
     const { locale, toggleLocale } = useContext(LocaleContext);
+    const { theme, toggleTheme } = useContext(ThemeContext);
 
     return (
         <header>
@@ -27,6 +29,13 @@ export const Header = () => {
                     </ul>
                 </nav>
             ) : null}
+            <button
+                className="toggle-theme"
+                type="button"
+                onClick={toggleTheme}
+            >
+                {theme == "light" ? <MdLightMode /> : <MdDarkMode />}
+            </button>
             <button
                 className="toggle-locale"
                 type="button"
