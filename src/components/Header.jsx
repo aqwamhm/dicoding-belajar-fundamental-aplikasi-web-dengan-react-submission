@@ -6,7 +6,7 @@ import { MdTranslate } from "react-icons/md";
 import { LocaleContext } from "../contexts/LocaleContext";
 
 export const Header = () => {
-    const { logout, name } = useContext(AuthContext);
+    const { isLoggedIn, logout, name } = useContext(AuthContext);
     const { locale, toggleLocale } = useContext(LocaleContext);
 
     return (
@@ -16,15 +16,17 @@ export const Header = () => {
                     {locale == "id" ? "Aplikasi Catatan" : "Notes App"}
                 </Link>
             </h1>
-            <nav className="navigation">
-                <ul>
-                    <li>
-                        <Link to="/archives">
-                            {locale == "id" ? "Terarsip" : "Archived"}
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
+            {isLoggedIn ? (
+                <nav className="navigation">
+                    <ul>
+                        <li>
+                            <Link to="/archives">
+                                {locale == "id" ? "Terarsip" : "Archived"}
+                            </Link>
+                        </li>
+                    </ul>
+                </nav>
+            ) : null}
             <button
                 className="toggle-locale"
                 type="button"
@@ -32,10 +34,16 @@ export const Header = () => {
             >
                 <MdTranslate />
             </button>
-            <button className="button-logout" type="button" onClick={logout}>
-                <LuLogOut />
-                {name}
-            </button>
+            {isLoggedIn ? (
+                <button
+                    className="button-logout"
+                    type="button"
+                    onClick={logout}
+                >
+                    <LuLogOut />
+                    {name}
+                </button>
+            ) : null}
         </header>
     );
 };

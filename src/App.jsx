@@ -65,21 +65,21 @@ const App = () => {
         <div className="app-container">
             {renderWithLoading(
                 !isLoggedIn ? (
-                    <main>
-                        <Routes>
-                            <Route path="/*" element={<LoginPage />} />
-                            <Route
-                                path="/register"
-                                element={<RegisterPage />}
-                            />
-                        </Routes>
-                    </main>
+                    <>
+                        <Header />
+                        <main>
+                            <Routes>
+                                <Route path="/*" element={<LoginPage />} />
+                                <Route
+                                    path="/register"
+                                    element={<RegisterPage />}
+                                />
+                            </Routes>
+                        </main>
+                    </>
                 ) : (
                     <>
-                        <Header
-                            changeFilter={onChangeFilterHandler}
-                            filter={currentFilter}
-                        />
+                        <Header />
                         <main>
                             <Routes>
                                 <Route
