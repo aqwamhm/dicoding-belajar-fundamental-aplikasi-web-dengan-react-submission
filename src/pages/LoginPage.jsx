@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import useInput from "../hooks/useInput";
 import { useContext } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { LocaleContext } from "../contexts/LocaleContext";
 
 export const LoginPage = () => {
     const [email, setEmail] = useInput("");
@@ -11,9 +12,15 @@ export const LoginPage = () => {
         await login({ email, password });
     };
 
+    const { locale } = useContext(LocaleContext);
+
     return (
         <section className="login-page">
-            <h2>Yuk, login untuk menggunakan aplikasi.</h2>
+            <h2>
+                {locale == "id"
+                    ? "Yuk, login untuk menggunakan aplikasi."
+                    : "Login to use app, please."}
+            </h2>
             <div className="input-login">
                 <label htmlFor="email">Email</label>
                 <input
@@ -34,7 +41,12 @@ export const LoginPage = () => {
                 </button>
             </div>
             <p>
-                Belum punya akun? <Link to="/register">Daftar di sini</Link>
+                {locale == "id"
+                    ? "Belum punya akun?"
+                    : "Do not have an account?"}{" "}
+                <Link to="/register">
+                    {locale == "id" ? "Daftar di sini" : "Register here"}
+                </Link>
             </p>
         </section>
     );

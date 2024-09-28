@@ -1,12 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NoteItem from "./NoteItem";
 import PropTypes from "prop-types";
 import useLoading from "../hooks/useLoading";
 import { getActiveNotes, getArchivedNotes } from "../utils/network-data";
+import { LocaleContext } from "../contexts/LocaleContext";
 
 const NotesList = ({ isActiveNotes = true, filter = "" }) => {
     const [notes, setNotes] = useState([]);
     const { stopLoading, renderWithLoading } = useLoading();
+    const { locale } = useContext(LocaleContext);
 
     useEffect(() => {
         async function fetchData() {
@@ -28,7 +30,11 @@ const NotesList = ({ isActiveNotes = true, filter = "" }) => {
         <section className="notes-list">
             {renderWithLoading(
                 !notes.length ? (
-                    <p>Tidak ada catatan</p>
+                    <p>
+                        {locale == "id"
+                            ? "Tidak ada catatan"
+                            : "No notes available"}
+                    </p>
                 ) : (
                     filteredNotes.map((note) => (
                         <NoteItem

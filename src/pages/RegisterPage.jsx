@@ -1,6 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import useInput from "../hooks/useInput";
 import { register } from "../utils/network-data";
+import { useContext } from "react";
+import { LocaleContext } from "../contexts/LocaleContext";
 
 export const RegisterPage = () => {
     const [name, handleNameChange] = useInput("");
@@ -8,6 +10,7 @@ export const RegisterPage = () => {
     const [password, handlePasswordChange] = useInput("");
     const [confirmPassword, handleConfirmPasswordChange] = useInput("");
     const navigate = useNavigate();
+    const { locale } = useContext(LocaleContext);
 
     const handleRegsiterSubmit = async () => {
         if (password !== confirmPassword) {
@@ -29,7 +32,11 @@ export const RegisterPage = () => {
 
     return (
         <section className="regsiter-page">
-            <h2>Isi form untuk mendaftar akun.</h2>
+            <h2>
+                {locale == "id"
+                    ? "Isi form untuk mendaftar akun."
+                    : "Fill the form to register an account"}
+            </h2>
             <div className="input-register">
                 <label htmlFor="name">Name</label>
                 <input
@@ -64,7 +71,12 @@ export const RegisterPage = () => {
                 </button>
             </div>
             <p>
-                Sudah punya akun? <Link to="/">Login di sini</Link>
+                {locale == "id"
+                    ? "Sudah punya akun?"
+                    : "Already have an account"}{" "}
+                <Link to="/">
+                    {locale == "id" ? "Login di sini" : "Login here"}
+                </Link>
             </p>
         </section>
     );
